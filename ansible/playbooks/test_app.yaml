@@ -1,0 +1,16 @@
+---
+- name: Install test app
+  become: yes
+  hosts: kubernetes_masters
+  tasks:
+    - name: Copy manifest to master
+      ansible.builtin.copy:
+        content: "{{ lookup('file', '../../kubernetes/test-app.yaml') }}"
+        dest: /opt/test-app.yaml
+        mode: 0644
+    - name: Apply manifest
+      command: "{{ item }}"
+      with_items:
+        - kubectl apply -f /opt/test-app.yaml
+      register: apply_result
+      changed_when: "'created' in apply_result.stdout or 'changed' in apply_result.stdout"

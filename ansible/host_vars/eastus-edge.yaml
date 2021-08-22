@@ -1,0 +1,9 @@
+---
+upstream_servers:
+  eastus-k8s-node1:
+    address: eastus-k8s-node1
+    port: 30080
+  northeurope:
+    address: northeurope-edge.private.az.milkycode.tk
+    port: 8080
+    backup: yes

@@ -1,0 +1,25 @@
+---
+
+- name: Install SSL certs
+  hosts: edge
+  become: yes
+  tasks:
+    - name: Copy certificate
+      ansible.builtin.copy:
+        content: "{{ lookup('file', '../../private/fullchain1.pem') }}"
+        dest: /etc/ssl/certs/azure_chain.pem
+        mode: 0644
+    - name: Copy key
+      ansible.builtin.copy:
+        content: "{{ lookup('file', '../../private/privkey1.pem') }}"
+        dest: /etc/ssl/private/azure_key.pem
+        mode: 0600
+
+- name: Install nginx
+  hosts: edge
+  become: yes
+  roles:
+    - nginxinc.nginx
+    - nginxinc.nginx_config
+
+- name: Force frequent checks

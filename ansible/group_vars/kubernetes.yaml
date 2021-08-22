@@ -1,0 +1,7 @@
+---
+docker_users:
+  - azadmin
+
+kubernetes_version: "1.21"
+kubernetes_enable_web_ui: no
+# kubernetes_web_ui_manifest_file: https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml

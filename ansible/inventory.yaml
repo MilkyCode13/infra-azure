@@ -1,0 +1,49 @@
+---
+all:
+  children:
+    eastus:
+      hosts:
+        eastus-edge:
+          ansible_host: eastus.az.milkycode.tk
+        eastus-k8s-master:
+          ansible_host: 10.1.1.5
+        eastus-k8s-node1:
+          ansible_host: 10.1.1.6
+        # eastus-k8s-node2:
+        #   ansible_host: 10.1.1.7
+    northeurope:
+      hosts:
+        northeurope-edge:
+          ansible_host: northeurope.az.milkycode.tk
+        northeurope-k8s-master:
+          ansible_host: 10.2.1.5
+        northeurope-k8s-node1:
+          ansible_host: 10.2.1.6
+        # northeurope-k8s-node2:
+        #   ansible_host: 10.2.1.7
+    edge:
+      hosts:
+        eastus-edge:
+        northeurope-edge:
+    kubernetes:
+      children:
+        eastus_kubernetes:
+          hosts:
+            eastus-k8s-master:
+            eastus-k8s-node1:
+            # eastus-k8s-node2:
+        northeurope_kubernetes:
+          hosts:
+            northeurope-k8s-master:
+            northeurope-k8s-node1:
+            # northeurope-k8s-node2:
+        kubernetes_masters:
+          hosts:
+            eastus-k8s-master:
+            northeurope-k8s-master:
+        kubernetes_nodes:
+          hosts:
+            eastus-k8s-node1:
+            # eastus-k8s-node2:
+            northeurope-k8s-node1:
+            # northeurope-k8s-node2:

@@ -1,0 +1,7 @@
+---
+
+- name: NGINX
+  import_playbook: playbooks/nginx.yaml
+
+- name: Kubernetes
+  import_playbook: playbooks/kubernetes.yaml

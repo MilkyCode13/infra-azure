@@ -1,0 +1,38 @@
+---
+
+- name: Install Docker
+  become: yes
+  hosts: kubernetes
+  roles:
+    - geerlingguy.docker
+
+- name: Install Kubernetes cluster in East US
+  become: yes
+  hosts: eastus_kubernetes
+  roles:
+    - geerlingguy.kubernetes
+
+- name: Install Kubernetes cluster in North Europe
+  become: yes
+  hosts: northeurope_kubernetes
+  roles:
+    - geerlingguy.kubernetes
+
+- name: Install NGINX ingress controller
+  become: yes
+  hosts: kubernetes_masters
+  tasks:
+    - name: Copy manifest to master
+      ansible.builtin.copy:
+        content: "{{ lookup('file', '../../kubernetes/ingress-nginx/deploy.yaml') }}"
+        dest: /opt/ingress-nginx.yaml
+    - name: Apply manifest
+      command: "{{ item }}"
+      with_items:
+        - kubectl apply -f /opt/ingress-nginx.yaml
+      register: ingress_result
+      changed_when: "'created' in ingress_result.stdout"
+    # - name: Apply manifest
+    #   community.kubernetes.k8s:
+    #     state: present
+    #     definition: "{{ lookup('file', '../../kubernetes/ingress-nginx/deploy.yaml') | from_yaml }}"
