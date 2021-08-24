@@ -21,5 +21,3 @@
   roles:
     - nginxinc.nginx
     - nginxinc.nginx_config
-
-- name: Force frequent checks
